@@ -50,7 +50,8 @@ import (
 	"github.com/openshift/cluster-etcd-operator/pkg/operator/etcdendpointscontroller"
 	"github.com/openshift/cluster-etcd-operator/pkg/operator/etcdmemberscontroller"
 	"github.com/openshift/cluster-etcd-operator/pkg/operator/machinedeletionhooks"
-	"github.com/openshift/cluster-etcd-operator/pkg/operator/metriccontroller"
+
+	// "github.com/openshift/cluster-etcd-operator/pkg/operator/metriccontroller"
 	"github.com/openshift/cluster-etcd-operator/pkg/operator/operatorclient"
 	"github.com/openshift/cluster-etcd-operator/pkg/operator/quorumguardcleanup"
 	"github.com/openshift/cluster-etcd-operator/pkg/operator/resourcesynccontroller"
@@ -257,10 +258,10 @@ func RunOperator(ctx context.Context, controllerContext *controllercmd.Controlle
 		return err
 	}
 
-	fsyncMetricController := metriccontroller.NewFSyncController(
-		configClient.ConfigV1(),
-		operatorClient,
-		controllerContext.EventRecorder)
+	// fsyncMetricController := metriccontroller.NewFSyncController(
+	// 	configClient.ConfigV1(),
+	// 	operatorClient,
+	// 	controllerContext.EventRecorder)
 
 	statusController := status.NewClusterOperatorStatusController(
 		"etcd",
@@ -419,7 +420,7 @@ func RunOperator(ctx context.Context, controllerContext *controllercmd.Controlle
 	go masterNodeInformer.Run(ctx.Done())
 
 	go staleConditions.Run(ctx, 1)
-	go fsyncMetricController.Run(ctx, 1)
+	// go fsyncMetricController.Run(ctx, 1)
 	go staticResourceController.Run(ctx, 1)
 	go targetConfigReconciler.Run(ctx, 1)
 	go etcdCertSignerController.Run(ctx, 1)
